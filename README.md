@@ -1,6 +1,5 @@
 # IP-Tracker
 
-## About the Project
 **IP-tracker** is an IP address tracking tool designed for **Linux**, developed in **Python**. The program provides detailed information about public and private IPs, such as:
 
 - ISP (Internet Service Provider)
