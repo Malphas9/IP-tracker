@@ -2,6 +2,9 @@ import requests
 import os
 import time
 
+
+API_KEY = "00132319ef996e"
+
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -17,7 +20,7 @@ def print_banner():
       }----------------------------------------{
    }-------------- Track IPLocation --------------{
       }----------------------------------------{
-                   v0.1 - By Malphas
+                   v0.2 - By Malphas
 """
     print(banner)
 
@@ -53,28 +56,31 @@ def track_ip():
     time.sleep(2)
 
     try:
-        response = requests.get(f"http://ip-api.com/json/{ip}")
-        data = response.json()
-        
-        if data['status'] != 'success':
-            print("    [!] Error retrieving data. IP may be invalid or API limit reached.")
+        headers = {"Authorization": f"Bearer {API_KEY}"}
+        response = requests.get(f"https://ipinfo.io/{ip}/json", headers=headers)
+
+        if response.status_code != 200:
+            print("    [!] Error retrieving data. Check API key or IP address.")
             time.sleep(2)
             return
 
+        data = response.json()
+        location = data.get("loc", "N/A").split(",")
+
         clear_screen()
         print_banner()
-        print(f"\n    [ ~ ] IP: {data.get('query', 'N/A')}")
+        print(f"\n    [ ~ ] IP: {data.get('ip', 'N/A')}")
         print(f"    [ ~ ] City: {data.get('city', 'N/A')}")
-        print(f"    [ ~ ] Region: {data.get('regionName', 'N/A')}")
+        print(f"    [ ~ ] Region: {data.get('region', 'N/A')}")
         print(f"    [ ~ ] Country: {data.get('country', 'N/A')}")
-        print(f"    [ ~ ] Latitude: {data.get('lat', 'N/A')}")
-        print(f"    [ ~ ] Longitude: {data.get('lon', 'N/A')}")
-        print(f"    [ ~ ] ZIP Code: {data.get('zip', 'N/A')}")
+        print(f"    [ ~ ] ZIP Code: {data.get('postal', 'N/A')}") 
+        print(f"    [ ~ ] Latitude: {location[0] if len(location) > 1 else 'N/A'}")
+        print(f"    [ ~ ] Longitude: {location[1] if len(location) > 1 else 'N/A'}")
         print(f"    [ ~ ] Timezone: {data.get('timezone', 'N/A')}")
-        print(f"    [ ~ ] ISP: {data.get('isp', 'N/A')}")
-        print(f"    [ ~ ] ASN: {data.get('as', 'N/A')}")
-        print(f"    [ ~ ] VPN/Proxy: {'Yes' if data.get('proxy', False) else 'No'}")
-        print(f"    [ ~ ] Mobile: {'Yes' if data.get('mobile', False) else 'No'}")
+        print(f"    [ ~ ] ISP: {data.get('org', 'N/A')}")
+        print(f"    [ ~ ] ASN: {data.get('asn', {}).get('asn', 'N/A')}")
+        print(f"    [ ~ ] VPN/Proxy: {'Yes' if 'VPN' in data.get('privacy', {}).get('vpn', '') else 'No'}")
+        print(f"    [ ~ ] Mobile: {'Yes' if data.get('carrier') else 'No'}")
         input("\nPress Enter to return to the menu...")
     except Exception as e:
         print(f"    [!] Error retrieving IP data: {e}")
@@ -83,9 +89,9 @@ def track_ip():
 def about():
     clear_screen()
     print_banner()
-    print("\n    Track IPLocation v1 - By Malphas")
+    print("\n    Track IPLocation v2 - By Malphas")
     print("    A real-time IP tracking tool for Linux terminal.")
-    print("    Uses IP-API for accurate geolocation data.")
+    print("    Uses IPinfo.io for accurate geolocation data.")
     print("    Developed with Python and optimized for performance.\n")
     input("Press Enter to return to the menu...")
 
