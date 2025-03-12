@@ -1,2 +1,5 @@
-requests
+request
+os
+time
 pycountry
+datetime
