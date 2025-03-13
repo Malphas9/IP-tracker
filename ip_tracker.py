@@ -116,11 +116,9 @@ def track_ip():
 def about():
     clear_screen()
     print_banner()
-    print("\n    \033[1mTrack IPLocation v1 - By Malphas\033[0m")
-    print("\033[1m    A real-time IP tracking tool for Linux terminal.\033[0m")
+    print("\n    \033[1mTool Name : IP-Tracker(v0.1)\033[0m")
+    print("\033[1m    Author : Malphas\033[0m")
     print("\033[1m    Uses IPinfo.io for accurate geolocation data.\033[0m")
-    print("\033[1m    Now includes full country names, region codes, and ASN numbers correctly.\033[0m")
-    print("\033[1m    Developed with Python and optimized for performance.\033[0m\n")
     input("\033[1mPress Enter to return to the menu...\033[0m")
 
 if __name__ == "__main__":
