@@ -10,7 +10,7 @@
 ## Installation
 1. Clone this repository:
    ```bash
-   git clone https://github.com/Malphas9/IP-tracker.git
+   git clone https://github.com/Malphas9/IP-tracker
    ```
 2. Navigate to the project directory:
    ```bash
